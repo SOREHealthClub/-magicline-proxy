@@ -26,7 +26,7 @@ router.get("/slots", async (req, res) => {
 
     if (!response.ok) {
       const errorText = await response.text();
-      throw new Error(\`API responded with status \${response.status}: \${errorText}\`);
+      throw new Error(`API responded with status ${response.status}: ${errorText}`);
     }
 
     const data = await response.json();
