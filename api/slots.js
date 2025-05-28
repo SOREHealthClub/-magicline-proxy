@@ -1,14 +1,7 @@
+export default async function handler(req, res) {
+  const { studioid } = req.query;
 
-const express = require("express");
-const fetch = require("node-fetch");
-const router = express.Router();
-
-const TENANT = "sore"; // Ersetze 'sore' mit deinem tatsächlichen Magicline-Tenant
-
-router.get("/slots", async (req, res) => {
-  const studioId = req.query.studioid;
-
-  if (!studioId) {
+  if (!studioid) {
     return res.status(400).json({ error: "Missing studioid" });
   }
 
@@ -17,7 +10,9 @@ router.get("/slots", async (req, res) => {
     .toISOString()
     .split("T")[0];
 
-  const url = `https://${TENANT}.api.magicline.com/connect/v1/trialsession?startDate=${startDate}&endDate=${endDate}&studioId=${studioId}`;
+  const TENANT = "sore"; // Ersetze mit deinem Magicline-Tenant
+
+  const url = `https://${TENANT}.api.magicline.com/connect/v1/trialsession?startDate=${startDate}&endDate=${endDate}&studioId=${studioid}`;
 
   try {
     const response = await fetch(url, {
@@ -30,15 +25,14 @@ router.get("/slots", async (req, res) => {
     }
 
     const data = await response.json();
-    res.json({
+
+    res.status(200).json({
       name: data.name,
       description: data.description,
       slots: data.slots,
     });
   } catch (error) {
-    console.error("Fehler beim Abrufen der Slots:", error);
+    console.error("Fehler bei Slots:", error);
     res.status(500).json({ error: error.message });
   }
-});
-
-module.exports = router;
+}
