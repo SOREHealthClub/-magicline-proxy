@@ -9,7 +9,7 @@ export default async function handler(req, res) {
   }
 
   const startDate = new Date().toISOString().split('T')[0];
-  const endDate = new Date(Date.now() + 50 * 24 * 60 * 60 * 1000).toISOString().split('T')[0];
+  const endDate = new Date(Date.now() + 60 * 24 * 60 * 60 * 1000).toISOString().split('T')[0];
 
   const TENANT = 'sore';
   const url = `https://${TENANT}.api.magicline.com/connect/v1/trialsession?startDate=${startDate}&endDate=${endDate}&studioId=${studioid}`;
